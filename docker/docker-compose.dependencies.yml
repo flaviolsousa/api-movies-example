@@ -1,0 +1,13 @@
+version: '3'
+
+networks:
+  api-movies-example:
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: "api-movies-example-mongodb"
+    ports:
+      - 27017:27017
+    networks:
+      - api-movies-example

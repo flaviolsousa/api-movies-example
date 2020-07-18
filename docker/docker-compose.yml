@@ -1,0 +1,32 @@
+version: '3'
+
+networks:
+  api-movies-example:
+
+services:
+  api-movies-example:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    environment:
+      MONGO_HOST: mongodb
+      MONGO_PORT: 27017
+      MONGO_BASE: movies
+    image: api-movies-example
+    ports:
+      - "8080:8080"
+    networks:
+      - api-movies-example
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    container_name: "api-movies-example-mongodb"
+    ports:
+      - 27017:27017
+    networks:
+      - api-movies-example
+
