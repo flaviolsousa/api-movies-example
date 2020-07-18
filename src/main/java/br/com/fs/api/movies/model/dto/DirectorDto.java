@@ -12,9 +12,9 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ActorDto {
+public class DirectorDto {
 
-  @ApiModelProperty(example = "Margot Robbie")
+  @ApiModelProperty(example = "Quentin Tarantino")
   @NotBlank
   private String name;
 

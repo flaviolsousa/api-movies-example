@@ -1,11 +1,13 @@
 package br.com.fs.api.movies.model.dto;
 
-import br.com.fs.api.movies.model.dto.ActorDto;
+import br.com.fs.api.movies.model.Censorship;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -20,18 +22,24 @@ import java.util.List;
 @NoArgsConstructor
 public class MovieDto {
 
+  @ApiModelProperty(position = -100)
+  private String id;
+
+  @Indexed
   @NotBlank
+  @ApiModelProperty(example = "Era uma Vez em... Hollywood", position = -50)
   private String name;
 
-  @ApiModelProperty(example = "2020-02-20")
+  @ApiModelProperty(example = "2019-08-15")
   @NotNull
   private LocalDate released;
 
   @NotNull
-  private Boolean censorship;
+  private Censorship censorship;
 
   @NotBlank
-  private String director;
+  @ApiModelProperty(position = -25)
+  private DirectorDto director;
 
   @NotNull
   @NotEmpty
