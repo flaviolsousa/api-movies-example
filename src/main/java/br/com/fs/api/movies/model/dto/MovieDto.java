@@ -23,11 +23,10 @@ public class MovieDto {
   @NotBlank
   private String name;
 
-  @ApiModelProperty(example = "2020-01-15")
+  @ApiModelProperty(example = "2020-02-20")
   @NotNull
   private LocalDate released;
 
-  @ApiModelProperty(allowableValues = "CENSURED,NOT_CENSURED")
   @NotNull
   private Boolean censorship;
 

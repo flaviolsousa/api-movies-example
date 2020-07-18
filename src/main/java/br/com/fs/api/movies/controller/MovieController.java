@@ -33,6 +33,6 @@ public interface MovieController {
     @ApiResponse(code = 200, message = "OK", response = MovieDto.class, responseContainer = "List"),
     @ApiResponse(code = 400, message = "Bad Request", response = ErrorResponse.class)
   })
-  List<MovieDto> findMovies(final @RequestParam Boolean censorship) throws Exception;
+  List<MovieDto> findMovies(@RequestParam Boolean censorship) throws Exception;
 
 }

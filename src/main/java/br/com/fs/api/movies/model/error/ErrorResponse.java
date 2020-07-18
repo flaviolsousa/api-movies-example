@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ErrorResponse {
+public class ErrorResponse extends RuntimeException {
 
   @ApiModelProperty(value = "Moment the exception occurred", required = true)
   private LocalDateTime timestamp;
@@ -22,6 +22,7 @@ public class ErrorResponse {
   @ApiModelProperty(value = "The error message", required = true)
   private String message;
 
+  @ApiModelProperty(value = "Describes a constraint violation", required = true)
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Violation> violations;
 
