@@ -34,7 +34,7 @@ public class MovieService {
       throw new ApiMovieValidationException(message);
     }
     if (movie.getCast().stream().map(Actor::getName).distinct().count() != movie.getCast().size()) {
-      throw new ApiMovieValidationException("Contains one or more actors more than once on movie cast");
+      throw new ApiMovieValidationException("Contains one or more actors more than once in the movie cast");
     }
   }
 
