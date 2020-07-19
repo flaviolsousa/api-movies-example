@@ -20,6 +20,7 @@
     <swagger2.version>2.9.2</swagger2.version>
     <org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
     <org.projectlombok.version>1.18.12</org.projectlombok.version>
+    <maven.unit-test.skip>false</maven.unit-test.skip>
   </properties>
 
   <dependencies>
@@ -119,6 +120,67 @@
           </annotationProcessorPaths>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.5</version>
+        <configuration>
+          <skip>${maven.unit-test.skip}</skip>
+          <excludes>
+            <exclude>**/br/com/fs/api/movies/ApiMoviesExampleApplication.*</exclude>
+            <exclude>**/br/com/fs/api/movies/controller/WebController.*</exclude>
+            <exclude>**/br/com/fs/api/movies/config/*.*</exclude>
+            <exclude>**/br/com/fs/api/movies/model/**</exclude>
+            <exclude>**/br/com/fs/api/movies/exception/**</exclude>
+          </excludes>
+        </configuration>
+        <executions>
+          <execution>
+            <id>jacoco-coverage-on-test</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>default-prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>default-report</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+
+          <execution>
+            <id>post-test-ant</id>
+            <phase>test</phase>
+            <configuration>
+              <target>
+                <echo message="-------------"/>
+                <echo message="COVERAGE: ${basedir}/target/site/jacoco/index.html"/>
+                <echo message="-------------"/>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 

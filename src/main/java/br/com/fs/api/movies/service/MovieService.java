@@ -24,16 +24,18 @@ public class MovieService {
 
   public Movie save(Movie movie) {
     this.checkIfAllowedSave(movie);
-    return movieRepository.save(movie);
+    final var db = movieRepository.save(movie);
+    return db;
   }
 
   private void checkIfAllowedSave(Movie movie) {
     var dbMovie = this.isAlreadyRegistered(movie);
-    if (dbMovie != null && !dbMovie.getId().equals(movie.getId())) {
+    if (dbMovie != null && dbMovie.getId().equals(movie.getId())) {
       var message = String.format("The movie is a duplicate of '%s' (id: '%s')", dbMovie.getName(), dbMovie.getId());
       throw new ApiMovieValidationException(message);
     }
-    if (movie.getCast().stream().map(Actor::getName).distinct().count() != movie.getCast().size()) {
+    var countDistinct = movie.getCast().stream().map(Actor::getName).distinct().count();
+    if (countDistinct != movie.getCast().size()) {
       throw new ApiMovieValidationException("Contains one or more actors more than once in the movie cast");
     }
   }
