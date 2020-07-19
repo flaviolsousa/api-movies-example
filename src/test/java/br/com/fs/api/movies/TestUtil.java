@@ -1,8 +1,8 @@
 package br.com.fs.api.movies;
 
 import com.github.javafaker.Faker;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -13,9 +13,12 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Component
-@RequiredArgsConstructor
+
+@Slf4j
 public class TestUtil {
+
+  @Getter
+  private static final TestUtil instance = TestUtil.newInstance();
 
   private Faker faker = new Faker();
 
@@ -29,6 +32,19 @@ public class TestUtil {
   public LocalDate toLocalDate(Date dateToConvert) {
     return LocalDate.ofInstant(
       dateToConvert.toInstant(), ZoneId.systemDefault());
+  }
+
+  public static TestUtil newInstance() {
+    return new TestUtil();
+  }
+
+  public static <T> T newInstance(Class<T> clazz) {
+    try {
+      return clazz.getDeclaredConstructor().newInstance();
+    } catch (Exception e) {
+      log.error("Error to create instance of: " + clazz.getName(), e);
+      throw new RuntimeException(e);
+    }
   }
 
 }
