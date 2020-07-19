@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -37,10 +38,12 @@ public class MovieDto {
   @NotNull
   private Censorship censorship;
 
-  @NotBlank
+  @Valid
+  @NotNull
   @ApiModelProperty(position = -25)
   private DirectorDto director;
 
+  @Valid
   @NotNull
   @NotEmpty
   @Size(max = 10)

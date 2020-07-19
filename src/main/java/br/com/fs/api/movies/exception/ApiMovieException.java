@@ -17,4 +17,8 @@ public class ApiMovieException extends RuntimeException {
     this.violations = violations;
   }
 
+  public ApiMovieException(String message) {
+    super(message);
+  }
+
 }

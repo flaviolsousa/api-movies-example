@@ -1,5 +1,7 @@
 package br.com.fs.api.movies.service;
 
+import br.com.fs.api.movies.exception.ApiMovieValidationException;
+import br.com.fs.api.movies.model.Actor;
 import br.com.fs.api.movies.model.Censorship;
 import br.com.fs.api.movies.model.Movie;
 import br.com.fs.api.movies.repository.MovieRepository;
@@ -16,21 +18,29 @@ public class MovieService {
 
   private final MovieRepository movieRepository;
 
-  public Movie save(Movie movie) {
-    if (isAllowedToSave(movie)) {
-      //throw new ApiMovieException("The movie has c"); // @TODO fixme
-    }
-    return movieRepository.save(movie); // @TODO validate actors
-  }
-
-  private boolean isAllowedToSave(Movie movie) {
-    String regex = movie.getName(); // @Fixme
-    return movieRepository.findByNameRegex(regex).isPresent();
-  }
-
   public List<Movie> findByCensorship(Censorship censorship) {
     return movieRepository.findByCensorship(censorship);
   }
 
+  public Movie save(Movie movie) {
+    this.checkIfAllowedSave(movie);
+    return movieRepository.save(movie);
+  }
+
+  private void checkIfAllowedSave(Movie movie) {
+    var dbMovie = this.isAlreadyRegistered(movie);
+    if (dbMovie != null && !dbMovie.getId().equals(movie.getId())) {
+      var message = String.format("The movie is a duplicate of '%s' (id: '%s')", dbMovie.getName(), dbMovie.getId());
+      throw new ApiMovieValidationException(message);
+    }
+    if (movie.getCast().stream().map(Actor::getName).distinct().count() != movie.getCast().size()) {
+      throw new ApiMovieValidationException("Contains one or more actors more than once on movie cast");
+    }
+  }
+
+  private Movie isAlreadyRegistered(Movie movie) {
+    String regex = movie.getName().replaceAll("\\s+", "\\\\s+");
+    return movieRepository.findByNameRegex(regex).orElse(null);
+  }
 
 }

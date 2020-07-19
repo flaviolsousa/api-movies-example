@@ -20,6 +20,13 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 @Slf4j
 public class RestExceptionHandler {
 
+  @ExceptionHandler(ApiMovieValidationException.class)
+  @ResponseStatus(BAD_REQUEST)
+  @ResponseBody
+  ResponseEntity<ErrorResponse> onApiMovieException(ApiMovieValidationException e) {
+    var body = new ErrorResponse(BAD_REQUEST, e);
+    return ResponseEntity.badRequest().body(body);
+  }
 
   @ExceptionHandler(ApiMovieException.class)
   @ResponseStatus(INTERNAL_SERVER_ERROR)
@@ -33,7 +40,7 @@ public class RestExceptionHandler {
   @ResponseStatus(BAD_REQUEST)
   @ResponseBody
   ResponseEntity<ErrorResponse> onConstraintValidationException(ConstraintViolationException e) {
-    var body = new ErrorResponse(BAD_REQUEST, e);
+    var body = new ErrorResponse(BAD_REQUEST, "Constraint validation failed");
     body.setViolations(
       e.getConstraintViolations().stream()
         .map(violation -> new Violation(violation.getPropertyPath().toString(), violation.getMessage()))
@@ -46,7 +53,7 @@ public class RestExceptionHandler {
   @ResponseStatus(BAD_REQUEST)
   @ResponseBody
   ResponseEntity<ErrorResponse> onMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-    var body = new ErrorResponse(BAD_REQUEST, e);
+    var body = new ErrorResponse(BAD_REQUEST, "Argument validation failed");
     body.setViolations(
       e.getBindingResult().getFieldErrors().stream()
         .map(fieldError -> new Violation(fieldError.getField(), fieldError.getDefaultMessage()))

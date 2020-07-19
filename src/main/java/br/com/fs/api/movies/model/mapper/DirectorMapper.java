@@ -7,8 +7,8 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface DirectorMapper {
 
-  DirectorDto toDto(Director movie);
+  DirectorDto toDto(Director director);
 
-  Director toModel(DirectorDto movie);
+  Director toModel(DirectorDto director);
 
 }

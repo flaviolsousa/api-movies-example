@@ -13,7 +13,7 @@ The Spring Boot provides a [starter](https://www.baeldung.com/spring-boot-bean-v
 _As an example for, it is interesting to mention the `name` field of the classes `ActorDto` and `DirectorDto` , since a regex type validation was used_
 
 ```java
-  @Pattern(regexp = "^\\p{L}[\\p{L} .'-]{1,30}$")
+  @Pattern(regexp = "^\\p{L}[\\p{L} .'-]{1,30}")
   private String name;
 ```
 

@@ -29,7 +29,7 @@ public class MovieControllerImpl implements MovieController {
 
   @Override
   public List<MovieDto> findMovies(Censorship censorship) {
-    final var movies = movieService.findByCensorship(censorship);
+    var movies = movieService.findByCensorship(censorship);
     return movieMapper.toDto(movies);
   }
 }

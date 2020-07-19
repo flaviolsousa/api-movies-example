@@ -12,6 +12,7 @@
 - [Services](services.md)
 - [Mappers](mappers.md)
 - [Validations](validations.md)
+- [Exceptions](exceptions.md)
 - [Tests](tests.md)
 
 ---

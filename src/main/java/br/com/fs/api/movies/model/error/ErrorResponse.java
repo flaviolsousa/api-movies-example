@@ -27,19 +27,23 @@ public class ErrorResponse {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Violation> violations;
 
-  ErrorResponse(String error, String message) {
+  public ErrorResponse(String error, String message) {
     this.timestamp = LocalDateTime.now();
     this.error = error;
     this.message = message;
   }
 
-  ErrorResponse(String error, ApiMovieException e) {
+  public ErrorResponse(String error, ApiMovieException e) {
     this(error, e.getMessage());
     this.setViolations(e.getViolations());
   }
 
-  ErrorResponse(String error, Exception e) {
-    this(error, e.getMessage());
+  public ErrorResponse(String error, Exception e) {
+    this(error, e.getMessage().replaceAll("\\n.*", ""));
+  }
+
+  public ErrorResponse(HttpStatus httpStatus, String message) {
+    this(httpStatus.toString(), message);
   }
 
   public ErrorResponse(HttpStatus httpStatus, Exception e) {

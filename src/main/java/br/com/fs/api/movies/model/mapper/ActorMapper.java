@@ -11,8 +11,8 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ActorMapper {
 
-  ActorDto toDto(Actor movie);
+  ActorDto toDto(Actor actor);
 
-  Actor toModel(ActorDto movie);
+  Actor toModel(ActorDto actor);
 
 }

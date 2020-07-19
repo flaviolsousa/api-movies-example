@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
@@ -15,7 +16,8 @@ import javax.validation.constraints.Pattern;
 public class DirectorDto {
 
   @ApiModelProperty(example = "Quentin Tarantino")
-  @Pattern(regexp = "^[\\p{L} .'-]{2,30}$")
+  @Pattern(regexp = "^\\p{L}[\\p{L} .'-]{1,30}")
+  @NotNull
   private String name;
 
 }
