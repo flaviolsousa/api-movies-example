@@ -6,7 +6,7 @@ A Rest API with basic functionalities
 
 - [How to run](#how-to-run)
 - [Architecture](doc/architecture.md)
-- [urls](doc/urls.md)
+- [App Urls](doc/urls.md)
 
 ---
 
