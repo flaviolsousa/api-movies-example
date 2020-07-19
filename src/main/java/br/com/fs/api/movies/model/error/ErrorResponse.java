@@ -1,5 +1,6 @@
 package br.com.fs.api.movies.model.error;
 
+import br.com.fs.api.movies.exception.ApiMovieException;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -30,6 +31,11 @@ public class ErrorResponse {
     this.timestamp = LocalDateTime.now();
     this.error = error;
     this.message = message;
+  }
+
+  ErrorResponse(String error, ApiMovieException e) {
+    this(error, e.getMessage());
+    this.setViolations(e.getViolations());
   }
 
   ErrorResponse(String error, Exception e) {

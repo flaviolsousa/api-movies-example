@@ -1,7 +1,6 @@
 package br.com.fs.api.movies.model.dto;
 
 import br.com.fs.api.movies.model.Censorship;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

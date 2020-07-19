@@ -1,5 +1,6 @@
 package br.com.fs.api.movies.controller;
 
+import br.com.fs.api.movies.model.Censorship;
 import br.com.fs.api.movies.model.dto.MovieDto;
 import br.com.fs.api.movies.model.error.ErrorResponse;
 import io.swagger.annotations.Api;
@@ -23,8 +24,7 @@ public interface MovieController {
     @ApiResponse(code = 201, message = "Created", response = MovieDto.class),
     @ApiResponse(code = 400, message = "Bad Request", response = ErrorResponse.class)
   })
-  MovieDto createMovie(@Valid @RequestBody MovieDto request) throws Exception;
-
+  MovieDto save(@Valid @RequestBody MovieDto request);
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
@@ -33,6 +33,6 @@ public interface MovieController {
     @ApiResponse(code = 200, message = "OK", response = MovieDto.class, responseContainer = "List"),
     @ApiResponse(code = 400, message = "Bad Request", response = ErrorResponse.class)
   })
-  List<MovieDto> findMovies(@RequestParam Boolean censorship) throws Exception;
+  List<MovieDto> findMovies(@RequestParam Censorship censorship);
 
 }
