@@ -3,11 +3,13 @@
 A Rest API with basic functionalities
 
 ## Table of contents
-- [Commands](#commands)
+
+- [How to run](#how-to-run)
+- [Architecture](doc/architecture.md)
 
 ---
 
-## Commands
+## How to run
 
 **Start everything in containers:**
 

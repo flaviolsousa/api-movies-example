@@ -26,6 +26,7 @@ public class MovieDto {
 
   @Indexed
   @NotBlank
+  @Size(min = 1, max = 100)
   @ApiModelProperty(example = "Era uma Vez em... Hollywood", position = -50)
   private String name;
 

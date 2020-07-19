@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Data
 @Builder
@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 public class ActorDto {
 
   @ApiModelProperty(example = "Margot Robbie")
-  @NotBlank
+  @Pattern(regexp = "^\\p{L}[\\p{L} .'-]{1,30}$")
   private String name;
 
 }
