@@ -24,7 +24,7 @@ public interface MovieController {
     @ApiResponse(code = 201, message = "Created", response = MovieDto.class),
     @ApiResponse(code = 400, message = "Bad Request", response = ErrorResponse.class)
   })
-  MovieDto save(@Valid @RequestBody MovieDto request);
+  MovieDto create(@Valid @RequestBody MovieDto request);
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)

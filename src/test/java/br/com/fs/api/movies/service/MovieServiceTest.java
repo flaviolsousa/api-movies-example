@@ -95,8 +95,28 @@ public class MovieServiceTest {
   public void testSaveDuplicatedActor() {
     var movie = movieTemplate.getNew();
     movie.getCast().add(movie.getCast().get(0));
-
     movieService.save(movie);
+  }
+
+  @Test(expected = ApiMovieValidationException.class)
+  public void testSaveId() {
+    var movie = movieTemplate.getValid();
+    movieService.save(movie);
+  }
+
+  @Test
+  public void testSaveUpdate() {
+    var movie = movieTemplate.getValid();
+    var captor = ArgumentCaptor.forClass(String.class);
+    when(movieRepository.findById(any(String.class))).thenReturn(Optional.of(movie));
+    when(movieRepository.save(any(Movie.class))).thenReturn(movie);
+
+    var result = movieService.save(movie);
+
+    verify(movieRepository, times(1)).findById(captor.capture());
+    assertThat(captor.getValue(), equalTo(movie.getId()));
+    assertThat(result, equalTo(movie));
+
   }
 
 }

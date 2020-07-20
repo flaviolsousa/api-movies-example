@@ -29,20 +29,33 @@ public class MovieService {
   }
 
   private void checkIfAllowedSave(Movie movie) {
-    var dbMovie = this.isAlreadyRegistered(movie);
+    this.checkIsUpdate(movie);
+    this.checkAlreadyRegistered(movie);
+    this.checkDuplicatedActor(movie);
+  }
+
+  private void checkIsUpdate(Movie movie) {
+    if (movie.getId() != null) {
+      movieRepository.findById(movie.getId())
+        .orElseThrow(() ->
+          new ApiMovieValidationException("When inserting a new document it is not possible to enter the 'id'"));
+    }
+  }
+
+  private void checkAlreadyRegistered(Movie movie) {
+    String regex = "^" + movie.getName().replaceAll("\\s+", "\\\\s+") + "$";
+    var dbMovie = movieRepository.findByNameRegex(regex).orElse(null);
     if (dbMovie != null && !dbMovie.getId().equals(movie.getId())) {
       var message = String.format("The movie is a duplicate of '%s' (id: '%s')", dbMovie.getName(), dbMovie.getId());
       throw new ApiMovieValidationException(message);
     }
+  }
+
+  private void checkDuplicatedActor(Movie movie) {
     var countDistinct = movie.getCast().stream().map(Actor::getName).distinct().count();
     if (countDistinct != movie.getCast().size()) {
       throw new ApiMovieValidationException("Contains one or more actors more than once in the movie cast");
     }
-  }
-
-  private Movie isAlreadyRegistered(Movie movie) {
-    String regex = "^" + movie.getName().replaceAll("\\s+", "\\\\s+") + "$";
-    return movieRepository.findByNameRegex(regex).orElse(null);
   }
 
 }
