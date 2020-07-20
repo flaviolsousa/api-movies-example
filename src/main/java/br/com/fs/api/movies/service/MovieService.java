@@ -35,7 +35,7 @@ public class MovieService {
 
   public Movie save(Movie movie) {
     this.checkIfAllowedSave(movie);
-    final var db = movieRepository.save(movie);
+    var db = movieRepository.save(movie);
     return db;
   }
 

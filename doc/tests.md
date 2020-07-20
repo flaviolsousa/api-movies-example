@@ -16,6 +16,10 @@
 
 ### Templates:
 
+**Packages:**
+
+- test/java/br.com.fs.api.movies.**templates**
+
 To generate random objects the framework was used: [java-faker](https://github.com/DiUS/java-faker)
 
 **About `java-faker`**
@@ -28,6 +32,41 @@ To generate random objects the framework was used: [java-faker](https://github.c
 
 ---
 
+### Unit Tests
+
+**Packages:**
+
+- test/java/br.com.fs.api.movies.**controller**
+- test/java/br.com.fs.api.movies.**mapper**
+- test/java/br.com.fs.api.movies.**service**
+
+Each Component is fully tested individually
+
+---
+
+### Integration Tests
+
+**Packages:**
+
+- test/java/br.com.fs.api.movies.**integration**
+
+As there was only one entity exposed with restful (Movie) I made only one class of integrated test ([MovieTest.java](https://github.com/flaviolsousa/api-movies-example/blob/develop/src/test/java/br/com/fs/api/movies/integration/MovieTest.java)).
+
+MovieTest.java test [all components](https://github.com/flaviolsousa/api-movies-example/blob/develop/doc/images/architecture.png) involved with Movie entity as they were designed, without any changes, including the repository with the help of a [Embedded MongoDB](https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo).
+
+---
+
+### Functional Tests
+
+_No need_
+
+---
+
+### The helper TestUtil.java
+
+This component was built specifically to assist in the development of tests for all layers of this project.
+
+[Source](https://github.com/flaviolsousa/api-movies-example/blob/develop/src/test/java/br/com/fs/api/movies/TestUtil.java)
 
 ---
 
