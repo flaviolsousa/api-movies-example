@@ -3,6 +3,7 @@ package br.com.fs.api.movies.controller;
 import br.com.fs.api.movies.TestUtil;
 import br.com.fs.api.movies.controller.impl.MovieControllerImpl;
 import br.com.fs.api.movies.model.Censorship;
+import br.com.fs.api.movies.model.Movie;
 import br.com.fs.api.movies.model.mapper.MovieMapper;
 import br.com.fs.api.movies.service.MovieService;
 import br.com.fs.api.movies.templates.dto.MovieDtoTemplate;
@@ -11,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,11 +28,8 @@ import java.util.List;
 
 import static com.jayway.jsonpath.matchers.JsonPathMatchers.hasJsonPath;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({MovieController.class, MovieControllerImpl.class})
@@ -61,12 +58,11 @@ public class MovieControllerTest {
   @Test
   public void testFindByCensorship() throws Exception {
     int amount = 3;
-    var censorship = Censorship.CENSORED;
-    var captor = ArgumentCaptor.forClass(Censorship.class);
+    var movieExample = Movie.builder().censorship(Censorship.CENSORED).build();
     var movies = testUtil.gimme(amount, movieTemplate::getValid);
     var moviesDto = testUtil.gimme(amount, movieDtoTemplate::getValid);
 
-    given(movieService.findByCensorship(censorship)).willReturn(movies);
+    given(movieService.getByExample(movieExample)).willReturn(movies);
     given(movieMapper.toDto(any(List.class))).willReturn(moviesDto);
 
     final MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
@@ -78,9 +74,6 @@ public class MovieControllerTest {
     final String response = mvcResult.getResponse().getContentAsString(Charset.defaultCharset());
     log.info(response);
 
-    verify(movieService, times(1)).findByCensorship(captor.capture());
-    assertThat(captor.getValue(), equalTo(censorship));
-
     assertThat(response, hasJsonPath("$", Matchers.notNullValue()));
     assertThat(response, hasJsonPath("$.length()", Matchers.equalTo(amount)));
     for (int i = 0; i < amount; i++) {
@@ -91,22 +84,7 @@ public class MovieControllerTest {
   }
 
   @Test
-  public void testFindByCensorshipInputValidation() throws Exception {
-    final MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
-      .get(BASE_URL)
-      .contentType(MediaType.APPLICATION_JSON_VALUE))
-      .andExpect(status().isBadRequest())
-      .andReturn();
-
-    final String response = mvcResult.getResponse().getContentAsString(Charset.defaultCharset());
-    log.info(response);
-
-    assertThat(response, hasJsonPath("$", Matchers.notNullValue()));
-    assertThat(response, hasJsonPath("$.message", Matchers.containsString("censorship")));
-  }
-
-  @Test
-  public void testSave() throws Exception {
+  public void testCreate() throws Exception {
     var movie = movieTemplate.getValid();
     var movieDto = movieDtoTemplate.getNew();
 
@@ -129,7 +107,7 @@ public class MovieControllerTest {
   }
 
   @Test
-  public void testSaveInputValidation() throws Exception {
+  public void testCreateInputValidation() throws Exception {
     var movieDto = movieDtoTemplate.getWithoutLists();
 
     final MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
@@ -144,6 +122,64 @@ public class MovieControllerTest {
 
     assertThat(response, hasJsonPath("$", Matchers.notNullValue()));
     assertThat(response, hasJsonPath("$.violations.length()", Matchers.greaterThan(1)));
+  }
+
+  @Test
+  public void testUpdate() throws Exception {
+    var movie = movieTemplate.getValid();
+    var movieDto = movieDtoTemplate.getValid();
+
+    given(movieService.save(movie)).willReturn(movie);
+    given(movieMapper.toDto(movie)).willReturn(movieDto);
+    given(movieMapper.toModel(movieDto)).willReturn(movie);
+
+    final MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
+      .put(BASE_URL)
+      .content(testUtil.toJson(movieDto))
+      .contentType(MediaType.APPLICATION_JSON_VALUE))
+      .andExpect(status().isOk())
+      .andReturn();
+
+    final String response = mvcResult.getResponse().getContentAsString(Charset.defaultCharset());
+    log.info(response);
+
+    assertThat(response, hasJsonPath("$", Matchers.notNullValue()));
+    assertThat(response, hasJsonPath("$.id", Matchers.equalTo(movieDto.getId())));
+  }
+
+  @Test
+  public void testUpdateInputValidation() throws Exception {
+    var movieDto = movieDtoTemplate.getNew();
+    String response = mvc.perform(MockMvcRequestBuilders
+      .put(BASE_URL)
+      .content(testUtil.toJson(movieDto))
+      .contentType(MediaType.APPLICATION_JSON_VALUE))
+      .andExpect(status().isBadRequest())
+      .andReturn()
+      .getResponse()
+      .getContentAsString(Charset.defaultCharset());
+    log.info(response);
+
+    assertThat(response, hasJsonPath("$", Matchers.notNullValue()));
+    assertThat(response, hasJsonPath("$.message", Matchers.notNullValue()));
+  }
+
+  @Test
+  public void testCreateWithIdNotNull() throws Exception {
+    var movieDto = movieDtoTemplate.getValid();
+
+    final MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
+      .post(BASE_URL)
+      .content(testUtil.toJson(movieDto))
+      .contentType(MediaType.APPLICATION_JSON_VALUE))
+      .andExpect(status().isBadRequest())
+      .andReturn();
+
+    final String response = mvcResult.getResponse().getContentAsString(Charset.defaultCharset());
+    log.info(response);
+
+    assertThat(response, hasJsonPath("$", Matchers.notNullValue()));
+    assertThat(response, hasJsonPath("$.message", Matchers.containsString("id")));
   }
 
 }

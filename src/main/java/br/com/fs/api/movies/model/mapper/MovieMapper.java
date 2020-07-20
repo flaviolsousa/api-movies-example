@@ -2,6 +2,7 @@ package br.com.fs.api.movies.model.mapper;
 
 import br.com.fs.api.movies.model.Movie;
 import br.com.fs.api.movies.model.dto.MovieDto;
+import br.com.fs.api.movies.model.dto.filter.MovieFilterDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -14,5 +15,7 @@ public interface MovieMapper {
   List<MovieDto> toDto(List<Movie> movie);
 
   Movie toModel(MovieDto movie);
+
+  Movie toModel(MovieFilterDto filterDto);
 
 }

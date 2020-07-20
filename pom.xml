@@ -138,7 +138,7 @@
             <exclude>**/br/com/fs/api/movies/controller/WebController.*</exclude>
             <exclude>**/br/com/fs/api/movies/config/*.*</exclude>
             <exclude>**/br/com/fs/api/movies/model/*.*</exclude>
-            <exclude>**/br/com/fs/api/movies/model/dto/*.*</exclude>
+            <exclude>**/br/com/fs/api/movies/model/dto/**</exclude>
             <exclude>**/br/com/fs/api/movies/model/error/*.*</exclude>
             <exclude>**/br/com/fs/api/movies/exception/**</exclude>
           </excludes>

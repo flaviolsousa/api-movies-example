@@ -13,6 +13,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Example;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -41,14 +42,11 @@ public class MovieServiceTest {
   public void testFindByCensorship() {
     int amount = 3;
     var movies = testUtil.gimme(amount, movieTemplate::getValid);
-    var censorship = Censorship.CENSORED;
-    var captor = ArgumentCaptor.forClass(Censorship.class);
-    when(movieRepository.findByCensorship(any(Censorship.class))).thenReturn(movies);
+    var movieExample = Movie.builder().censorship(Censorship.CENSORED).build();
+    when(movieRepository.findAll(any(Example.class))).thenReturn(movies);
 
-    var result = movieService.findByCensorship(censorship);
+    var result = movieService.getByExample(movieExample);
 
-    verify(movieRepository, times(1)).findByCensorship(captor.capture());
-    assertThat(captor.getValue(), equalTo(censorship));
     assertThat(result, notNullValue());
     assertThat(result.size(), equalTo(amount));
   }
@@ -56,14 +54,11 @@ public class MovieServiceTest {
   @Test
   public void testFindByCensorshipNotFounded() {
     var movies = new ArrayList<Movie>();
-    var censorship = Censorship.UNCENSORED;
-    var captor = ArgumentCaptor.forClass(Censorship.class);
-    when(movieRepository.findByCensorship(any(Censorship.class))).thenReturn(movies);
+    var movieExample = Movie.builder().censorship(Censorship.UNCENSORED).build();
+    when(movieRepository.findAll(any(Example.class))).thenReturn(movies);
 
-    var result = movieService.findByCensorship(Censorship.UNCENSORED);
+    var result = movieService.getByExample(movieExample);
 
-    verify(movieRepository, times(1)).findByCensorship(captor.capture());
-    assertThat(captor.getValue(), equalTo(censorship));
     assertThat(result, notNullValue());
     assertThat(result.size(), equalTo(0));
   }

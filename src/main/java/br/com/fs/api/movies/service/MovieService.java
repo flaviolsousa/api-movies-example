@@ -2,11 +2,12 @@ package br.com.fs.api.movies.service;
 
 import br.com.fs.api.movies.exception.ApiMovieValidationException;
 import br.com.fs.api.movies.model.Actor;
-import br.com.fs.api.movies.model.Censorship;
 import br.com.fs.api.movies.model.Movie;
 import br.com.fs.api.movies.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +19,18 @@ public class MovieService {
 
   private final MovieRepository movieRepository;
 
-  public List<Movie> findByCensorship(Censorship censorship) {
-    return movieRepository.findByCensorship(censorship);
+  public List<Movie> getByExample(Movie example) {
+    var matcher = getDefaultExampleMatcher();
+    var searchExample = Example.of(example, matcher);
+    return movieRepository.findAll(searchExample);
+  }
+
+  private ExampleMatcher getDefaultExampleMatcher() {
+    return ExampleMatcher
+      .matching()
+      .withMatcher("id", ExampleMatcher.GenericPropertyMatchers.exact())
+      .withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+      .withMatcher("censorship", ExampleMatcher.GenericPropertyMatchers.exact());
   }
 
   public Movie save(Movie movie) {
@@ -38,7 +49,7 @@ public class MovieService {
     if (movie.getId() != null) {
       movieRepository.findById(movie.getId())
         .orElseThrow(() ->
-          new ApiMovieValidationException("When inserting a new document it is not possible to enter the 'id'"));
+          new ApiMovieValidationException("'id' not founded"));
     }
   }
 

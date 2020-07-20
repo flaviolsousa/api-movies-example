@@ -6,7 +6,6 @@ import br.com.fs.api.movies.templates.dto.ActorDtoTemplate;
 import br.com.fs.api.movies.templates.model.ActorTemplate;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class ActorMapperTest {
 

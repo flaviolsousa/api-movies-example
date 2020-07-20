@@ -1,5 +1,6 @@
 package br.com.fs.api.movies;
 
+import br.com.fs.api.movies.model.dto.MovieDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
@@ -39,5 +40,9 @@ public class TestUtil {
 
   public String toJson(final Object objectToJson) throws JsonProcessingException {
     return objectMapper.writeValueAsString(objectToJson);
+  }
+
+  public <T> T toObject(String json, Class<T> clazz) throws JsonProcessingException {
+    return (T) objectMapper.readValue(json, clazz);
   }
 }

@@ -8,8 +8,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.validation.ConstraintViolationException;
@@ -23,24 +21,18 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 public class RestExceptionHandler {
 
   @ExceptionHandler(ApiMovieValidationException.class)
-  @ResponseStatus(BAD_REQUEST)
-  @ResponseBody
   ResponseEntity<ErrorResponse> onApiMovieException(ApiMovieValidationException e) {
     var body = new ErrorResponse(BAD_REQUEST, e);
     return ResponseEntity.badRequest().body(body);
   }
 
   @ExceptionHandler(ApiMovieException.class)
-  @ResponseStatus(INTERNAL_SERVER_ERROR)
-  @ResponseBody
   ResponseEntity<ErrorResponse> onApiMovieException(ApiMovieException e) {
     var body = new ErrorResponse(INTERNAL_SERVER_ERROR, e);
     return ResponseEntity.badRequest().body(body);
   }
 
   @ExceptionHandler(ConstraintViolationException.class)
-  @ResponseStatus(BAD_REQUEST)
-  @ResponseBody
   ResponseEntity<ErrorResponse> onConstraintValidationException(ConstraintViolationException e) {
     var body = new ErrorResponse(BAD_REQUEST, "Constraint validation failed");
     body.setViolations(
@@ -52,8 +44,6 @@ public class RestExceptionHandler {
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  @ResponseStatus(BAD_REQUEST)
-  @ResponseBody
   ResponseEntity<ErrorResponse> onMethodArgumentNotValidException(MethodArgumentNotValidException e) {
     var body = new ErrorResponse(BAD_REQUEST, "Argument validation failed");
     body.setViolations(
@@ -64,9 +54,11 @@ public class RestExceptionHandler {
     return ResponseEntity.badRequest().body(body);
   }
 
-  @ExceptionHandler({MissingServletRequestParameterException.class, MethodArgumentTypeMismatchException.class})
-  @ResponseStatus(BAD_REQUEST)
-  @ResponseBody
+  @ExceptionHandler({
+    MissingServletRequestParameterException.class,
+    MethodArgumentTypeMismatchException.class,
+    IllegalArgumentException.class
+  })
   ResponseEntity<ErrorResponse> onMissingServletRequestParameterException(Exception e) {
     var body = new ErrorResponse(BAD_REQUEST, e);
     return ResponseEntity.badRequest().body(body);
@@ -74,9 +66,7 @@ public class RestExceptionHandler {
 
 
   @ExceptionHandler({Exception.class})
-  @ResponseStatus(value = INTERNAL_SERVER_ERROR)
-  @ResponseBody
-  public ResponseEntity<ErrorResponse> onAnyException(Exception e) {
+  ResponseEntity<ErrorResponse> onAnyException(Exception e) {
     log.error("Global Handler", e);
     var body = new ErrorResponse(INTERNAL_SERVER_ERROR, e);
     return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(body);
