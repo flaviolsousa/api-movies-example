@@ -15,13 +15,13 @@ A Rest API with basic functionalities
 
 **url:** http://localhost:8080/
 
-### Start everything in containers:**
+### Start everything in containers:
 
 ```sh
 make build run
 ```
 
-### Start application on IDE and dependencies on containers:**
+### Start application on IDE and dependencies on containers:
 
 ```sh
 make run-dependencies
