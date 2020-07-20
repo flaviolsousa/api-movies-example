@@ -1,6 +1,7 @@
 package br.com.fs.api.movies.integration;
 
 import br.com.fs.api.movies.TestUtil;
+import br.com.fs.api.movies.config.HooksConfig;
 import br.com.fs.api.movies.controller.MovieController;
 import br.com.fs.api.movies.controller.impl.MovieControllerImpl;
 import br.com.fs.api.movies.model.dto.MovieDto;
@@ -42,7 +43,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
   ActorMapperImpl.class,
   DirectorMapperImpl.class,
   MovieService.class,
-  MovieRepository.class
+  MovieRepository.class,
+  HooksConfig.class
 })
 @AutoConfigureMockMvc()
 @RunWith(SpringRunner.class)
