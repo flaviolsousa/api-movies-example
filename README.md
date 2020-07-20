@@ -12,6 +12,8 @@ A Rest API with basic functionalities
 
 ## How to run
 
+**url:** http://localhost:8080/
+
 ### Start everything in containers:**
 
 ```sh

@@ -176,6 +176,9 @@
             <phase>test</phase>
             <configuration>
               <target>
+                <copy failonerror="false" todir="${basedir}/target/classes/static/coverage">
+                  <fileset dir="${basedir}/target/site/jacoco"/>
+                </copy>
                 <echo message="-------------"/>
                 <echo message="COVERAGE: ${basedir}/target/site/jacoco/index.html"/>
                 <echo message="-------------"/>

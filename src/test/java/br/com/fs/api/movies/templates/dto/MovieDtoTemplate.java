@@ -1,9 +1,8 @@
 package br.com.fs.api.movies.templates.dto;
 
+import br.com.fs.api.movies.model.Censorship;
 import br.com.fs.api.movies.model.dto.MovieDto;
 import br.com.fs.api.movies.templates.BaseTemplate;
-import br.com.fs.api.movies.model.Censorship;
-import br.com.fs.api.movies.model.Movie;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,4 +30,10 @@ public class MovieDtoTemplate extends BaseTemplate {
       .build();
   }
 
+  public MovieDto getWithoutLists() {
+    var dto = this.getValid();
+    dto.setCast(null);
+    dto.setDirector(null);
+    return dto;
+  }
 }

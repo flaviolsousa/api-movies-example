@@ -1,8 +1,8 @@
 package br.com.fs.api.movies.templates.model;
 
-import br.com.fs.api.movies.templates.BaseTemplate;
 import br.com.fs.api.movies.model.Censorship;
 import br.com.fs.api.movies.model.Movie;
+import br.com.fs.api.movies.templates.BaseTemplate;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +33,13 @@ public class MovieTemplate extends BaseTemplate {
   public Movie getNew() {
     final var movie = this.getValid();
     movie.setId(null);
+    return movie;
+  }
+
+  public Movie getWithoutLists() {
+    final var movie = this.getValid();
+    movie.setCast(null);
+    movie.setDirector(null);
     return movie;
   }
 

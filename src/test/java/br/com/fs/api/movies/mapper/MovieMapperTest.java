@@ -15,6 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.List;
+
 @RunWith(MockitoJUnitRunner.class)
 public class MovieMapperTest {
 
@@ -35,6 +37,7 @@ public class MovieMapperTest {
 
   @Test
   public void testToModel() {
+    Assertions.assertThat(mapper.toModel(null)).isNull();
     var dto = movieDtoTemplate.getValid();
     var model = mapper.toModel(dto);
 
@@ -49,7 +52,10 @@ public class MovieMapperTest {
 
   @Test
   public void testToDto() {
-    var model = movieTemplate.getValid();
+    Movie model = null;
+    Assertions.assertThat(mapper.toDto(model)).isNull();
+
+    model = movieTemplate.getValid();
     var dto = mapper.toDto(model);
 
     Assertions.assertThat(dto)
@@ -62,9 +68,32 @@ public class MovieMapperTest {
   }
 
   @Test
+  public void testToDtoNullLists() {
+    var model = movieTemplate.getWithoutLists();
+    var dto = mapper.toDto(model);
+
+    Assertions.assertThat(dto.getId()).isNotNull();
+    Assertions.assertThat(dto.getCast()).isNull();
+    Assertions.assertThat(dto.getDirector()).isNull();
+  }
+
+  @Test
+  public void testToModelNullLists() {
+    var dto = movieDtoTemplate.getWithoutLists();
+    var model = mapper.toModel(dto);
+
+    Assertions.assertThat(model.getId()).isNotNull();
+    Assertions.assertThat(model.getCast()).isNull();
+    Assertions.assertThat(model.getDirector()).isNull();
+  }
+
+  @Test
   public void testListToDto() {
+    List<Movie> modelList = null;
+    Assertions.assertThat(mapper.toDto(modelList)).isNull();
+
     int amount = 3;
-    var modelList = testUtil.gimme(amount, movieTemplate::getValid);
+    modelList = testUtil.gimme(amount, movieTemplate::getValid);
     var dtoList = mapper.toDto(modelList);
 
     for (int i = 0; i < dtoList.size(); i++) {

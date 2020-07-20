@@ -16,6 +16,8 @@ public class DirectorMapperTest {
 
   @Test
   public void testToModel() {
+    Assertions.assertThat(mapper.toModel(null)).isNull();
+
     var dto = actorDtoTemplate.getValid();
     var model = mapper.toModel(dto);
 
@@ -25,6 +27,8 @@ public class DirectorMapperTest {
 
   @Test
   public void testToDto() {
+    Assertions.assertThat(mapper.toDto(null)).isNull();
+
     var model = actorTemplate.getValid();
     var dto = mapper.toDto(model);
 
