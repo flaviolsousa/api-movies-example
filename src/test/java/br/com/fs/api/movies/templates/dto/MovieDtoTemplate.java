@@ -35,6 +35,11 @@ public class MovieDtoTemplate extends BaseTemplate {
     dto.setId(null);
     return dto;
   }
+  public MovieDto getNewFixedName() {
+    var dto = this.getNew();
+    dto.setName("Flávio L. O'Müçer");
+    return dto;
+  }
 
   public MovieDto getWithoutLists() {
     var dto = this.getValid();

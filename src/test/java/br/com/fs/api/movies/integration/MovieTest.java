@@ -24,7 +24,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.nio.charset.Charset;
@@ -71,19 +70,53 @@ public class MovieTest {
   public void testSave() throws Exception {
     var movieDto = movieDtoTemplate.getNew();
 
-    final MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
+    final String response = mvc.perform(MockMvcRequestBuilders
       .post(BASE_URL)
       .content(testUtil.toJson(movieDto))
       .contentType(MediaType.APPLICATION_JSON_VALUE))
       .andExpect(status().isCreated())
-      .andReturn();
+      .andReturn()
+      .getResponse()
+      .getContentAsString(Charset.defaultCharset());
 
-    final String response = mvcResult.getResponse().getContentAsString(Charset.defaultCharset());
     log.info(response);
 
     assertThat(response, hasJsonPath("$", Matchers.notNullValue()));
     assertThat(response, hasJsonPath("$.id", Matchers.notNullValue()));
+    assertThat(response, hasJsonPath("$.name", Matchers.equalTo(movieDto.getName())));
   }
 
+  @Test
+  public void testSaveDuplicated() throws Exception {
+    var movieDto = movieDtoTemplate.getNewFixedName();
+
+    final String response1 = mvc.perform(MockMvcRequestBuilders
+      .post(BASE_URL)
+      .content(testUtil.toJson(movieDto))
+      .contentType(MediaType.APPLICATION_JSON_VALUE))
+      .andExpect(status().isCreated())
+      .andReturn()
+      .getResponse()
+      .getContentAsString(Charset.defaultCharset());
+
+    log.info(response1);
+
+    assertThat(response1, hasJsonPath("$", Matchers.notNullValue()));
+    assertThat(response1, hasJsonPath("$.id", Matchers.notNullValue()));
+    assertThat(response1, hasJsonPath("$.name", Matchers.equalTo(movieDto.getName())));
+
+    final String response2 = mvc.perform(MockMvcRequestBuilders
+      .post(BASE_URL)
+      .content(testUtil.toJson(movieDto))
+      .contentType(MediaType.APPLICATION_JSON_VALUE))
+      .andExpect(status().isBadRequest())
+      .andReturn()
+      .getResponse()
+      .getContentAsString(Charset.defaultCharset());
+
+    log.info(response2);
+    assertThat(response2, hasJsonPath("$.message", Matchers.containsString("duplicate")));
+
+  }
 
 }

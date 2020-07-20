@@ -30,7 +30,7 @@ public class MovieService {
 
   private void checkIfAllowedSave(Movie movie) {
     var dbMovie = this.isAlreadyRegistered(movie);
-    if (dbMovie != null && dbMovie.getId().equals(movie.getId())) {
+    if (dbMovie != null && !dbMovie.getId().equals(movie.getId())) {
       var message = String.format("The movie is a duplicate of '%s' (id: '%s')", dbMovie.getName(), dbMovie.getId());
       throw new ApiMovieValidationException(message);
     }

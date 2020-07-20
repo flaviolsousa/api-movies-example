@@ -88,15 +88,13 @@ public class MovieServiceTest {
     dbMovie.setName(movie.getName());
     when(movieRepository.findByNameRegex(any(String.class))).thenReturn(Optional.of(dbMovie));
 
-    movieService.save(dbMovie);
+    movieService.save(movie);
   }
 
   @Test(expected = ApiMovieValidationException.class)
   public void testSaveDuplicatedActor() {
     var movie = movieTemplate.getNew();
-    var dbMovie = movieTemplate.getValid();
     movie.getCast().add(movie.getCast().get(0));
-    when(movieRepository.findByNameRegex(any(String.class))).thenReturn(Optional.of(dbMovie));
 
     movieService.save(movie);
   }
