@@ -8,7 +8,7 @@
 
 ### Templates:
 
-Normally in my projects I use to generate random objects the framework [six2six/fixture-factory](https://github.com/six2six/fixture-factory/tree/master/src) but this framework is out of date (the last commit was on Apr 29, 2019), so I decided to try a new framework: [java-faker](https://github.com/DiUS/java-faker)
+To generate random objects the framework was used: [java-faker](https://github.com/DiUS/java-faker)
 
 **About `java-faker`**
 

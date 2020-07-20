@@ -11,8 +11,11 @@ import br.com.fs.api.movies.service.MovieService;
 import br.com.fs.api.movies.templates.dto.MovieDtoTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.Matchers;
+import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,6 +26,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.nio.charset.Charset;
 
 import static com.jayway.jsonpath.matchers.JsonPathMatchers.hasJsonPath;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -42,6 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @AutoConfigureDataMongo
 @Slf4j
+@FixMethodOrder(MethodSorters.JVM)
 public class MovieTest {
 
   public static final String BASE_URL = "http://localhost:8080/movies";
@@ -52,6 +58,14 @@ public class MovieTest {
 
   @Autowired
   protected MockMvc mvc;
+
+  @Autowired
+  protected MovieRepository movieRepository;
+
+  @Before
+  public void before() throws Exception {
+    this.movieRepository.deleteAll();
+  }
 
   @Test
   public void testSave() throws Exception {
@@ -64,7 +78,7 @@ public class MovieTest {
       .andExpect(status().isCreated())
       .andReturn();
 
-    final String response = mvcResult.getResponse().getContentAsString();
+    final String response = mvcResult.getResponse().getContentAsString(Charset.defaultCharset());
     log.info(response);
 
     assertThat(response, hasJsonPath("$", Matchers.notNullValue()));

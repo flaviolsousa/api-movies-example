@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 import static com.jayway.jsonpath.matchers.JsonPathMatchers.hasJsonPath;
@@ -74,7 +75,7 @@ public class MovieControllerTest {
       .andExpect(status().isOk())
       .andReturn();
 
-    final String response = mvcResult.getResponse().getContentAsString();
+    final String response = mvcResult.getResponse().getContentAsString(Charset.defaultCharset());
     log.info(response);
 
     verify(movieService, times(1)).findByCensorship(captor.capture());
@@ -97,7 +98,7 @@ public class MovieControllerTest {
       .andExpect(status().isBadRequest())
       .andReturn();
 
-    final String response = mvcResult.getResponse().getContentAsString();
+    final String response = mvcResult.getResponse().getContentAsString(Charset.defaultCharset());
     log.info(response);
 
     assertThat(response, hasJsonPath("$", Matchers.notNullValue()));
@@ -120,7 +121,7 @@ public class MovieControllerTest {
       .andExpect(status().isCreated())
       .andReturn();
 
-    final String response = mvcResult.getResponse().getContentAsString();
+    final String response = mvcResult.getResponse().getContentAsString(Charset.defaultCharset());
     log.info(response);
 
     assertThat(response, hasJsonPath("$", Matchers.notNullValue()));
@@ -138,7 +139,7 @@ public class MovieControllerTest {
       .andExpect(status().isBadRequest())
       .andReturn();
 
-    final String response = mvcResult.getResponse().getContentAsString();
+    final String response = mvcResult.getResponse().getContentAsString(Charset.defaultCharset());
     log.info(response);
 
     assertThat(response, hasJsonPath("$", Matchers.notNullValue()));

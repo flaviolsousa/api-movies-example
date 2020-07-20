@@ -12,6 +12,8 @@ To avoid exposing the application model, the DTO strategy was adopted.
 
 This `AnnotationProcessor` automatically generates mappers class that converts two Java Beans.
 
+**About `java-faker`**
+
 [Documentation](https://mapstruct.org/documentation/dev/reference/html/)
 
 ---

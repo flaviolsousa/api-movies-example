@@ -41,7 +41,7 @@ public class MovieService {
   }
 
   private Movie isAlreadyRegistered(Movie movie) {
-    String regex = movie.getName().replaceAll("\\s+", "\\\\s+");
+    String regex = "^" + movie.getName().replaceAll("\\s+", "\\\\s+") + "$";
     return movieRepository.findByNameRegex(regex).orElse(null);
   }
 
