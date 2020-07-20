@@ -30,10 +30,17 @@ public class MovieDtoTemplate extends BaseTemplate {
       .build();
   }
 
+  public MovieDto getNew() {
+    var dto = this.getValid();
+    dto.setId(null);
+    return dto;
+  }
+
   public MovieDto getWithoutLists() {
     var dto = this.getValid();
     dto.setCast(null);
     dto.setDirector(null);
     return dto;
   }
+
 }

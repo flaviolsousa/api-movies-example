@@ -89,27 +89,60 @@ public class MovieControllerTest {
 
   }
 
-
-  // @Test(expected = { RuntimeException.class })
-  public void testFindByCensorshipWithoutQueryParameter() throws Exception {
-    int amount = 3;
-    var censorship = Censorship.CENSORED;
-    var captor = ArgumentCaptor.forClass(Censorship.class);
-    var movies = testUtil.gimme(amount, movieTemplate::getValid);
-    var moviesDto = testUtil.gimme(amount, movieDtoTemplate::getValid);
-
-    given(movieService.findByCensorship(censorship)).willReturn(movies);
-    given(movieMapper.toDto(any(List.class))).willReturn(moviesDto);
-
+  @Test
+  public void testFindByCensorshipInputValidation() throws Exception {
     final MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
       .get(BASE_URL)
       .contentType(MediaType.APPLICATION_JSON_VALUE))
-      .andExpect(status().isOk())
+      .andExpect(status().isBadRequest())
       .andReturn();
 
     final String response = mvcResult.getResponse().getContentAsString();
     log.info(response);
 
+    assertThat(response, hasJsonPath("$", Matchers.notNullValue()));
+    assertThat(response, hasJsonPath("$.message", Matchers.containsString("censorship")));
+  }
+
+  @Test
+  public void testSave() throws Exception {
+    var movie = movieTemplate.getValid();
+    var movieDto = movieDtoTemplate.getNew();
+
+    given(movieService.save(movie)).willReturn(movie);
+    given(movieMapper.toDto(movie)).willReturn(movieDto);
+    given(movieMapper.toModel(movieDto)).willReturn(movie);
+
+    final MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
+      .post(BASE_URL)
+      .content(testUtil.toJson(movieDto))
+      .contentType(MediaType.APPLICATION_JSON_VALUE))
+      .andExpect(status().isCreated())
+      .andReturn();
+
+    final String response = mvcResult.getResponse().getContentAsString();
+    log.info(response);
+
+    assertThat(response, hasJsonPath("$", Matchers.notNullValue()));
+    assertThat(response, hasJsonPath("$.id", Matchers.equalTo(movieDto.getId())));
+  }
+
+  @Test
+  public void testSaveInputValidation() throws Exception {
+    var movieDto = movieDtoTemplate.getWithoutLists();
+
+    final MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
+      .post(BASE_URL)
+      .content(testUtil.toJson(movieDto))
+      .contentType(MediaType.APPLICATION_JSON_VALUE))
+      .andExpect(status().isBadRequest())
+      .andReturn();
+
+    final String response = mvcResult.getResponse().getContentAsString();
+    log.info(response);
+
+    assertThat(response, hasJsonPath("$", Matchers.notNullValue()));
+    assertThat(response, hasJsonPath("$.violations.length()", Matchers.greaterThan(1)));
   }
 
 }
