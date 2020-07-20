@@ -5,6 +5,7 @@ A Rest API with basic functionalities
 ## Table of contents
 
 - [How to run](#how-to-run)
+- [How to clean](#how-to-clean)
 - [Architecture](doc/architecture.md)
 - [App Urls](doc/urls.md)
 
@@ -27,6 +28,14 @@ make run-dependencies
 ```
 
 **Run:** br.com.fs.api.movies.ApiMoviesExampleApplication.java
+
+---
+
+## How to clean
+
+```sh
+make clean
+```
 
 ---
 
