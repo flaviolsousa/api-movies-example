@@ -17,4 +17,8 @@
 
 ---
 
+![Image of Architecture](architecture.png)
+
+---
+
 [back to top](#api-movies-example)
