@@ -1,5 +1,6 @@
 package br.com.fs.api.movies.templates.dto;
 
+import br.com.fs.api.movies.model.dto.MovieDto;
 import br.com.fs.api.movies.templates.BaseTemplate;
 import br.com.fs.api.movies.model.Censorship;
 import br.com.fs.api.movies.model.Movie;
@@ -19,8 +20,8 @@ public class MovieDtoTemplate extends BaseTemplate {
 
   protected final DirectorDtoTemplate directorDtoTemplate = DirectorDtoTemplate.getInstance();
 
-  public Movie getValid() {
-    return Movie.builder()
+  public MovieDto getValid() {
+    return MovieDto.builder()
       .id(faker.regexify("[a-z1-9]{10}"))
       .name(faker.book().title())
       .released(util.toLocalDate(faker.date().past(20 * 365, TimeUnit.DAYS)))

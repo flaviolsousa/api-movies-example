@@ -7,13 +7,11 @@ import br.com.fs.api.movies.model.Movie;
 import br.com.fs.api.movies.repository.MovieRepository;
 import br.com.fs.api.movies.templates.model.MovieTemplate;
 import lombok.extern.slf4j.Slf4j;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
@@ -43,9 +41,14 @@ public class MovieServiceTest {
   public void testFindByCensorship() {
     int amount = 3;
     var movies = testUtil.gimme(amount, movieTemplate::getValid);
+    var censorship = Censorship.CENSORED;
+    var captor = ArgumentCaptor.forClass(Censorship.class);
     when(movieRepository.findByCensorship(any(Censorship.class))).thenReturn(movies);
 
-    var result = movieService.findByCensorship(Censorship.CENSORED);
+    var result = movieService.findByCensorship(censorship);
+
+    verify(movieRepository, times(1)).findByCensorship(captor.capture());
+    assertThat(captor.getValue(), equalTo(censorship));
     assertThat(result, notNullValue());
     assertThat(result.size(), equalTo(amount));
   }
@@ -53,9 +56,14 @@ public class MovieServiceTest {
   @Test
   public void testFindByCensorshipNotFounded() {
     var movies = new ArrayList<Movie>();
+    var censorship = Censorship.UNCENSORED;
+    var captor = ArgumentCaptor.forClass(Censorship.class);
     when(movieRepository.findByCensorship(any(Censorship.class))).thenReturn(movies);
 
-    var result = movieService.findByCensorship(Censorship.CENSORED);
+    var result = movieService.findByCensorship(Censorship.UNCENSORED);
+
+    verify(movieRepository, times(1)).findByCensorship(captor.capture());
+    assertThat(captor.getValue(), equalTo(censorship));
     assertThat(result, notNullValue());
     assertThat(result.size(), equalTo(0));
   }

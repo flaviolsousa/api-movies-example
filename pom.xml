@@ -86,6 +86,12 @@
       <version>1.0.2</version>
     </dependency>
     <dependency>
+      <groupId>com.jayway.jsonpath</groupId>
+      <artifactId>json-path-assert</artifactId>
+      <version>2.4.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>de.flapdoodle.embed</groupId>
       <artifactId>de.flapdoodle.embed.mongo</artifactId>
       <scope>test</scope>
@@ -131,7 +137,9 @@
             <exclude>**/br/com/fs/api/movies/ApiMoviesExampleApplication.*</exclude>
             <exclude>**/br/com/fs/api/movies/controller/WebController.*</exclude>
             <exclude>**/br/com/fs/api/movies/config/*.*</exclude>
-            <exclude>**/br/com/fs/api/movies/model/**</exclude>
+            <exclude>**/br/com/fs/api/movies/model/*.*</exclude>
+            <exclude>**/br/com/fs/api/movies/model/dto/*.*</exclude>
+            <exclude>**/br/com/fs/api/movies/model/error/*.*</exclude>
             <exclude>**/br/com/fs/api/movies/exception/**</exclude>
           </excludes>
         </configuration>

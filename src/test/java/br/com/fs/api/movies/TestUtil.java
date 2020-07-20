@@ -1,5 +1,7 @@
 package br.com.fs.api.movies;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ public class TestUtil {
   private static final TestUtil instance = new TestUtil();
 
   private Faker faker = new Faker();
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public <T> List<T> gimme(int amount, Supplier<T> templateFunction) {
     Objects.requireNonNull(templateFunction);
@@ -34,4 +37,7 @@ public class TestUtil {
       dateToConvert.toInstant(), ZoneId.systemDefault());
   }
 
+  public String toJson(final Object objectToJson) throws JsonProcessingException {
+    return objectMapper.writeValueAsString(objectToJson);
+  }
 }

@@ -5,10 +5,12 @@ import br.com.fs.api.movies.model.error.Violation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.validation.ConstraintViolationException;
 import java.util.stream.Collectors;
@@ -61,6 +63,15 @@ public class RestExceptionHandler {
     );
     return ResponseEntity.badRequest().body(body);
   }
+
+  @ExceptionHandler({MissingServletRequestParameterException.class, MethodArgumentTypeMismatchException.class})
+  @ResponseStatus(BAD_REQUEST)
+  @ResponseBody
+  ResponseEntity<ErrorResponse> onMissingServletRequestParameterException(Exception e) {
+    var body = new ErrorResponse(BAD_REQUEST, e);
+    return ResponseEntity.badRequest().body(body);
+  }
+
 
   @ExceptionHandler({Exception.class})
   @ResponseStatus(value = INTERNAL_SERVER_ERROR)
