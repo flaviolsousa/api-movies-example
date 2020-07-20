@@ -14,7 +14,7 @@ public class ActorDtoTemplate extends BaseTemplate {
 
   public ActorDto getValid() {
     return ActorDto.builder()
-      .name(faker.name().fullName())
+      .name(faker.name().fullName() + faker.name().lastName())
       .build();
   }
 

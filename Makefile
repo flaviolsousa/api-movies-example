@@ -1,3 +1,5 @@
+test:
+	mvn clean test
 build:
 	mvn clean package -Dmaven.test.skip=true
 run-dependencies:

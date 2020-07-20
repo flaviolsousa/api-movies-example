@@ -20,7 +20,7 @@ public interface MovieController {
 
   @PutMapping
   @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(value = "Create a new Movie", response = MovieDto.class)
+  @ApiOperation(value = "Update a Movie", response = MovieDto.class)
   @ApiResponses({
     @ApiResponse(code = 201, message = "Updated", response = MovieDto.class),
     @ApiResponse(code = 400, message = "Bad Request", response = ErrorResponse.class)

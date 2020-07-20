@@ -22,7 +22,7 @@ public class MovieDtoTemplate extends BaseTemplate {
   public MovieDto getValid() {
     return MovieDto.builder()
       .id(faker.regexify("[a-z1-9]{10}"))
-      .name(faker.book().title())
+      .name(faker.book().title() + faker.regexify(" [1-9]{3}"))
       .released(util.toLocalDate(faker.date().past(20 * 365, TimeUnit.DAYS)))
       .censorship(faker.options().option(Censorship.values()))
       .director(directorDtoTemplate.getValid())
@@ -35,6 +35,21 @@ public class MovieDtoTemplate extends BaseTemplate {
     dto.setId(null);
     return dto;
   }
+
+  public MovieDto getNewCensored() {
+    var dto = this.getValid();
+    dto.setId(null);
+    dto.setCensorship(Censorship.CENSORED);
+    return dto;
+  }
+
+  public MovieDto getNewUncensored() {
+    var dto = this.getValid();
+    dto.setId(null);
+    dto.setCensorship(Censorship.UNCENSORED);
+    return dto;
+  }
+
   public MovieDto getNewFixedName() {
     var dto = this.getNew();
     dto.setName("Flávio L. O'Müçer");
