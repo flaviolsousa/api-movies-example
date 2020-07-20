@@ -40,6 +40,13 @@ Flávio! Sousa
 
 ### Business Validations
 
+Business validations are performed at the `service` layer.
+
+Are normalized to application exceptions to facilitate future maintenances.
+
+An example is the exception `ApiMovieValidationException`, thrown when in an attempt to save a movie it was previously saved in the database with another `id`.
+(_Note: With same `id` the document is updated_)
+
 ---
 
 [back to top](#api-movies-example)
