@@ -1,6 +1,5 @@
 package br.com.fs.api.movies;
 
-import br.com.fs.api.movies.model.dto.MovieDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
@@ -15,7 +14,6 @@ import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 
 @Slf4j
 public class TestUtil {
