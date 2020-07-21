@@ -50,9 +50,9 @@ Each Component is fully tested individually
 
 - test/java/br.com.fs.api.movies.**integration**
 
-As there was only one entity exposed with restful (Movie) I made only one class of integrated test ([MovieTest.java](https://github.com/flaviolsousa/api-movies-example/blob/develop/src/test/java/br/com/fs/api/movies/integration/MovieTest.java)).
+As there was only one entity exposed with restful (Movie) I made only one class of integrated test ([MovieTest.java](https://github.com/flaviolsousa/api-movies-example/blob/master/src/test/java/br/com/fs/api/movies/integration/MovieTest.java)).
 
-MovieTest.java test [all components](https://github.com/flaviolsousa/api-movies-example/blob/develop/doc/images/architecture.png) involved with Movie entity as they were designed, without any changes, including the repository with the help of a [Embedded MongoDB](https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo).
+MovieTest.java test [all components](https://github.com/flaviolsousa/api-movies-example/blob/master/doc/images/architecture.png) involved with Movie entity as they were designed, without any changes, including the repository with the help of a [Embedded MongoDB](https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo).
 
 ---
 
@@ -66,7 +66,7 @@ _No need_
 
 This component was built specifically to assist in the development of tests for all layers of this project.
 
-[Source](https://github.com/flaviolsousa/api-movies-example/blob/develop/src/test/java/br/com/fs/api/movies/TestUtil.java)
+[Source](https://github.com/flaviolsousa/api-movies-example/blob/master/src/test/java/br/com/fs/api/movies/TestUtil.java)
 
 Methods:
 
