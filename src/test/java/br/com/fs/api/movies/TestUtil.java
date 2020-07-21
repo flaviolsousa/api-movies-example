@@ -38,7 +38,7 @@ public class TestUtil {
       dateToConvert.toInstant(), ZoneId.systemDefault());
   }
 
-  public String toJson(final Object objectToJson) throws JsonProcessingException {
+  public String toJson(Object objectToJson) throws JsonProcessingException {
     return objectMapper.writeValueAsString(objectToJson);
   }
 

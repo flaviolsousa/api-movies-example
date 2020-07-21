@@ -20,9 +20,8 @@ public class MovieControllerImpl implements MovieController {
   private final MovieService movieService;
 
   @Override
-  public MovieDto update(MovieDto request) {
-    if (request.getId() == null)
-      throw new IllegalArgumentException("'id' is required");
+  public MovieDto update(MovieDto request, String id) {
+    request.setId(id);
     var movie = movieMapper.toModel(request);
     movie = movieService.save(movie);
     return movieMapper.toDto(movie);

@@ -18,14 +18,14 @@ import java.util.List;
 @RequestMapping("/movies")
 public interface MovieController {
 
-  @PutMapping
+  @PutMapping(value = "/{id}")
   @ResponseStatus(HttpStatus.OK)
   @ApiOperation(value = "Update a Movie", response = MovieDto.class)
   @ApiResponses({
     @ApiResponse(code = 201, message = "Updated", response = MovieDto.class),
     @ApiResponse(code = 400, message = "Bad Request", response = ErrorResponse.class)
   })
-  MovieDto update(@Valid @RequestBody MovieDto request);
+  MovieDto update(@Valid @RequestBody MovieDto request, @PathVariable String id);
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)

@@ -165,7 +165,7 @@ public class MovieTest {
     movieDto.setId(createdDto.getId());
 
     var response = mvc.perform(MockMvcRequestBuilders
-      .put(BASE_URL)
+      .put(BASE_URL + "/" + movieDto.getId())
       .content(testUtil.toJson(movieDto))
       .contentType(MediaType.APPLICATION_JSON_VALUE))
       .andExpect(status().isOk())
@@ -184,7 +184,7 @@ public class MovieTest {
     var movieDto = movieDtoTemplate.getValid();
 
     var response = mvc.perform(MockMvcRequestBuilders
-      .put(BASE_URL)
+      .put(BASE_URL + "/" + movieDto.getId())
       .content(testUtil.toJson(movieDto))
       .contentType(MediaType.APPLICATION_JSON_VALUE))
       .andExpect(status().isBadRequest())

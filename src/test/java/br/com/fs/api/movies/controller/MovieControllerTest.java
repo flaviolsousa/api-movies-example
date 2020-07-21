@@ -134,7 +134,7 @@ public class MovieControllerTest {
     given(movieMapper.toModel(movieDto)).willReturn(movie);
 
     final MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
-      .put(BASE_URL)
+      .put(BASE_URL + "/" + movieDto.getId())
       .content(testUtil.toJson(movieDto))
       .contentType(MediaType.APPLICATION_JSON_VALUE))
       .andExpect(status().isOk())
@@ -149,9 +149,9 @@ public class MovieControllerTest {
 
   @Test
   public void testUpdateInputValidation() throws Exception {
-    var movieDto = movieDtoTemplate.getNew();
+    var movieDto = movieDtoTemplate.getWithoutLists();
     String response = mvc.perform(MockMvcRequestBuilders
-      .put(BASE_URL)
+      .put(BASE_URL + "/" + movieDto.getId())
       .content(testUtil.toJson(movieDto))
       .contentType(MediaType.APPLICATION_JSON_VALUE))
       .andExpect(status().isBadRequest())
