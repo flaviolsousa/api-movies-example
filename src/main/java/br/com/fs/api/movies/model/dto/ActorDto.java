@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 public class ActorDto {
 
   @ApiModelProperty(example = "Margot Robbie")
-  @Pattern(regexp = "^\\p{L}[\\p{L} .'-]*$", message = "You must start with a letter and then letters, spaces or one of the following characters .'-")
+  @Pattern(regexp = "^\\p{L}[\\p{L} .'-]*$", message = "^\\p{L}[\\p{L} .'-]*$^\\p{L}[\\p{L} .'-]*$")
   @Size(min = 1, max = 100)
   @NotNull
   private String name;

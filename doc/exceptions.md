@@ -28,7 +28,7 @@ Example:
     },
     {
       "field": "director.name",
-      "message": "must match \"^[\\p{L} .'-]{2,30}$\""
+      "message": "You must start with a letter and then letters, spaces or one of the following characters .'-"
     }
   ]
 }

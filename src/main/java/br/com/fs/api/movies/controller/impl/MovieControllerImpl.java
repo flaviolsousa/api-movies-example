@@ -30,7 +30,7 @@ public class MovieControllerImpl implements MovieController {
   @Override
   public MovieDto create(MovieDto request) {
     if (request.getId() != null)
-      throw new IllegalArgumentException("You cannot set id int new new document");
+      throw new IllegalArgumentException("You cannot set id on create new document");
 
     var movie = movieMapper.toModel(request);
     movie = movieService.save(movie);

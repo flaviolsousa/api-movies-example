@@ -71,7 +71,8 @@ This component was built specifically to assist in the development of tests for 
 Methods:
 
 - List<T> gimme(int amount, Supplier<T> templateFunction)
-  _Created to generate `n` instances of a specific template._
+
+    _Created to generate `n` instances of a specific template._
 
 - LocalDate toLocalDate(Date dateToConvert)
 

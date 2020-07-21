@@ -48,7 +48,7 @@ public class MovieService {
     if (movie.getId() != null) {
       movieRepository.findById(movie.getId())
         .orElseThrow(() ->
-          new ApiMovieValidationException("'id' not founded"));
+          new ApiMovieValidationException("'id' not found"));
     }
   }
 

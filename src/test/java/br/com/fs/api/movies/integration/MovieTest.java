@@ -194,12 +194,12 @@ public class MovieTest {
     log.info(response);
 
     assertThat(response, hasJsonPath("$", Matchers.notNullValue()));
-    assertThat(response, hasJsonPath("$.message", Matchers.notNullValue()));
+    assertThat(response, hasJsonPath("$.message", Matchers.containsString("not found")));
   }
 
   @Test
   public void testFind() throws Exception {
-    List<MovieDto> moviesDto = create(3, 3);
+    create(3, 3);
     MovieDto[] resultDto = find(MovieFilterDto.builder().build());
 
     assertThat(resultDto.length, Matchers.equalTo(6));
@@ -214,12 +214,6 @@ public class MovieTest {
 
     MovieDto[] resultDto2 = find(MovieFilterDto.builder().censorship(Censorship.UNCENSORED).build());
     assertThat(resultDto2.length, Matchers.equalTo(2));
-  }
-
-  @Test
-  public void testFindUncensored() throws Exception {
-    List<MovieDto> moviesDto = create(3, 2);
-
   }
 
   @Test

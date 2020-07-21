@@ -25,13 +25,14 @@ public class Movie {
   @Id
   private String id;
 
-  @Indexed
+  @Indexed(name = "name_", unique = true)
   @NotBlank
   private String name;
 
   @NotNull
   private LocalDate released;
 
+  @Indexed(name = "censorship_")
   @NotNull
   private Censorship censorship;
 
