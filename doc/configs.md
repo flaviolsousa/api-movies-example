@@ -12,7 +12,7 @@ This setting is essential for the `springfox-swagger-ui` dependency and generati
 
 ---
 
-## SwaggerConfig
+## HooksConfig
 
 Installs a hook in the git repository that prevents the user from committing without all tests being OK
 
