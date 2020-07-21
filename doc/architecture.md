@@ -14,6 +14,7 @@
 - [Validations](validations.md)
 - [Exceptions](exceptions.md)
 - [Tests](tests.md)
+- [Configs](configs.md)
 
 ---
 
