@@ -4,6 +4,7 @@ A Rest API with basic functionalities
 
 ## Table of contents
 
+- [Requirements](#requirements)
 - [How to run](#how-to-run)
 - [How to test](#how-to-test)
 - [How to clean](#how-to-clean)
@@ -11,6 +12,11 @@ A Rest API with basic functionalities
 - [App Urls](doc/urls.md)
 
 ---
+
+## Requirements:
+
+- JRE 11
+- Apache Maven
 
 ## How to run
 
