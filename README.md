@@ -62,10 +62,6 @@ _Will clean related dockers containers, networks and disks_
 make clean
 ```
 
-## About the author
-
-I'm Flávio Lopes de Sousa, I'm working as a Technical Leader at CVC Corp and I'm currently responsable for the development and maintenance of the gateway of car product , using Java, NodeJs, K8s and AWS Cloud.
-
 ---
 
 [back to top](#api-movies-example)
